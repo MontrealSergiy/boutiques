@@ -1,0 +1,288 @@
+{
+    "command-line": "TODO", 
+    "container-image": {
+        "TODO"
+    }, 
+    "name": "BEst Toolbox", 
+    "author": "Obaï Bin Ka’b Ali",
+    "description": "EEG/MEG source localisation techniques based upon the Maximum Entropy on the Mean framework", 
+    "inputs": [
+        {
+            "id": "recording_data", 
+            "name": "Recording data", 
+            "type": "File", 
+            "value-key": "[RECORDING_DATA]"
+        }, 
+        {
+            "id": "baseline_data", 
+            "name": "Baseline data",
+            "optional": true, 
+            "type": "File", 
+            "value-key": "[BASELINE_DATA]"
+        }, 
+        {
+            "id": "lead_field_data", 
+            "name": "Lead field data",
+            "type": "File", 
+            "value-key": "[LEAD_FIELD_DATA]"
+        }, 
+        {
+            "id": "adjacency_matrix", 
+            "name": "Adjacency matrix", 
+            "type": "File", 
+            "value-key": "[ADJACENCY_MATRIX]"
+        }, 
+        {
+            "id": "mem_method", 
+            "name": "MEM method",
+            "type": "String",
+            "value-choices": [
+                "cMEM"
+            ],
+            "value-key": "[MEM_METHOD]"
+        }, 
+        {
+            "id": "data_types", 
+            "name": "Data types", 
+            "type": "String",
+            "list": true,
+            "max-list-entries": 2,
+            "min-list-entries": 1,
+            "value-choices": [
+                "EEG",
+                "MEG"
+            ],
+            "value-key": "[DATA_TYPES]"
+        }, 
+        {
+            "id": "localisation_time_window", 
+            "name": "Localisation time window", 
+            "description": "Recording data time definition in seconds",
+            "type": "Number",
+            "list": true,
+            "max-list-entries": 2,
+            "min-list-entries": 2,
+            "minimum": 0,
+            "value-key": "[LOCALISATION_TIME_WINDOW]"
+        }, 
+        {
+            "id": "baseline_type", 
+            "name": "Baseline type", 
+            "type": "String",
+            "value-choices": [
+                "from-recording-data",
+                "from-external-data"
+            ],
+            "value-disables": {
+                "from-recording-data": [
+                    "baseline_data" 
+                ]
+            },
+            "value-requires": {
+                "from-external-data": [
+                    "baseline_data" 
+                ]
+            },
+            "value-key": "[BASELINE_TYPE]"
+        }, 
+        {
+            "id": "baseline_time_window", 
+            "name": "Baseline time window", 
+            "description": "Baseline time definition in seconds",
+            "type": "Number",
+            "list": true,
+            "max-list-entries": 2,
+            "min-list-entries": 2,
+            "minimum": 0,
+            "value-key": "[BASELINE_TIME_WINDOW]"
+        }, 
+        {
+            "id": "normalization", 
+            "name": "Normalization",
+            "type": "String", 
+            "default-value": "adaptive",
+            "value-choices": [
+                "adaptive",
+                "fixed"
+            ],
+            "value-key": "[NORMALIZATION]"
+        }, 
+        {
+            "id": "clusters-type", 
+            "name": "Clusters type",
+            "type": "String", 
+            "default-value": "static",
+            "value-choices": [
+                "static",
+                "dynamic"
+            ],
+            "value-disables": {
+                "static": [
+                    "msp_window"
+                ]
+            }, 
+            "value-requires": {
+                "dynamic": [
+                    "msp_window" 
+                ]
+            },
+            "value-key": "[CLUSTERS_TYPE]"
+        }, 
+        {
+            "id": "msp_window", 
+            "name": "MSP window",
+            "type": "Number",
+            "optional": true,
+            "minimum": 0,
+            "default-value": 10,
+            "value-key": "[MSP_WINDOW]"
+        }, 
+        {
+            "id": "msp_scores_threshold_method", 
+            "name": "MSP scores threshold method",
+            "type": "String", 
+            "default-value": "arbitrary",
+            "value-choices": [
+                "arbitrary",
+                "fdr"
+            ],
+            "value-disables": {
+                "fsr": [
+                    "msp_scores_threshold"
+                ]
+            }, 
+            "value-requires": {
+                "arbitrary": [
+                    "msp_scores_threshold" 
+                ]
+            },
+            "value-key": "[MSP_SCORES_THRESHOLD_METHOD]"
+        }, 
+        {
+            "id": "msp_scores_threshold", 
+            "name": "MSP scores threshold",
+            "type": "Number",
+            "optional": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "value-key": "[MSP_SCORES_THRESHOLD]"
+        }, 
+        {
+            "id": "neighborhood_order", 
+            "name": "Neighborhood order",
+            "type": "Number",
+            "integer": true,
+            "minimum": 0,
+            "default-value": 4,
+            "value-key": "[NEIGHBORHOOD_ORDER]"
+        }, 
+        {
+            "id": "active_mean_initialization", 
+            "name": "Active mean initialization",
+            "type": "Number",
+            "integer": true,
+            "minimum": 1,
+            "maximum": 4,
+            "default-value": 2,
+            "value-key": "[ACTIVE_MEAN_INITIALIZATION]"
+        }, 
+        {
+            "id": "active_probability_initialization", 
+            "name": "Active probability initialization",
+            "type": "Number",
+            "integer": true,
+            "minimum": 1,
+            "maximum": 5,
+            "default-value": 3,
+            "value-key": "[ACTIVE_PROBABILITY_INITIALIZATION]"
+        }, 
+        {
+            "id": "active_probability_threshold", 
+            "name": "Active probability threshold",
+            "type": "Number",
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "value-key": "[ACTIVE_PROBABILITY_THRESHOLD]"
+        }, 
+        {
+            "id": "lambda_initialization", 
+            "name": "Lambda initialization",
+            "type": "Number",
+            "integer": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 1,
+            "value-key": "[LAMBDA_INITIALIZATION]"
+        }, 
+        {
+            "id": "active_variance_coefficient", 
+            "name": "Active variance coefficient",
+            "type": "Number",
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0.05,
+            "value-key": "[ACTIVE_VARIANCE_COEFFICIENT]"
+        }, 
+        {
+            "id": "inactive_variance_coefficient", 
+            "name": "Inactive variance coefficient",
+            "type": "Number",
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "value-key": "[INACTIVE_VARIANCE_COEFFICIENT]"
+        }, 
+        {
+            "id": "noise_covariance_matrix_estimation", 
+            "name": "Noise covariance matrix estimation",
+            "type": "Number",
+            "integer": true,
+            "minimum": 0,
+            "maximum": 4,
+            "default-value": 2,
+            "value-key": "[NOISE_COVARIANCE_MATRIX_ESTIMATION]"
+        }, 
+        {
+            "id": "spatial_smoothing", 
+            "name": "Spatial smoothing",
+            "type": "Number",
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0.6,
+            "value-key": "[SPATIAL_SMOOTHING]"
+        }, 
+        {
+            "id": "optimization_routine", 
+            "name": "Optimization routine",
+            "type": "String", 
+            "default-value": "fminunc",
+            "value-choices": [
+                "fminunc",
+                "minfunc"
+            ],
+            "value-key": "[OPTMIZATION_ROUTINE]"
+        }, 
+        {
+            "command-line-flag": "-p",
+            "id": "parallel_computing",
+            "name": "Parallel computing",
+            "type": "Flag",
+            "default-value": false,
+            "value-key": "[PARALLEL_COMPUTING]"
+        }
+    ], 
+    "output-files": [
+        {
+            "id": "localised_data", 
+            "name": "Localised data",
+            "path-template": "?"
+        },
+    ], 
+    "schema-version": "0.5", 
+    "tags": {
+        "domain": "neuroinformatics"
+    }, 
+    "tool-version": "1.0"
+}
