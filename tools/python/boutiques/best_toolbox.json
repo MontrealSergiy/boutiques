@@ -1,37 +1,35 @@
 {
-    "command-line": "TODO", 
+    "command-line": "$TOOL_ROOT/BEst.exe [RECORDINGS] [LEADFIELD] [ADJACENCY_MATRIX] [SOURCES] [MEM_METHOD] [SENSOR_TYPES] [RECONSTRUCTION_WINDOW] [BASELINE_WINDOW] [BASELINE] [NORMALIZATION] [CLUSTERING_METHOD] [MSP_WINDOW] [MSP_THRESHOLD_METHOD] [MSP_THRESHOLD] [NEIGHBORHOOD_ORDER] [SPATIAL_SMOOTHING] [ACTIVE_MEAN_INIT] [ACTIVE_PROBA_INIT] [LAMBDA_INIT] [ACTIVE_PROBA_THRESHOLD] [ACTIVE_VAR_COEF] [INACTIVE_VAR_COEF] [NOISE_COV_METHOD] [OPTIM_METHOD] [USE_PARALLEL]", 
     "container-image": {
-        "TODO"
+        "image": "best", 
+        "index": "docker://",
+        "type": "singularity",
     }, 
     "name": "BEst Toolbox", 
     "author": "Obaï Bin Ka’b Ali",
     "description": "EEG/MEG source localisation techniques based upon the Maximum Entropy on the Mean framework", 
     "inputs": [
         {
-            "id": "recording_data", 
+            "id": "recordings", 
             "name": "Recording data", 
-            "type": "File", 
-            "value-key": "[RECORDING_DATA]"
+            "type": "File",
+            "uses-absolute-path": true,
+            "value-key": "[RECORDINGS]"
         }, 
         {
-            "id": "baseline_data", 
-            "name": "Baseline data",
-            "optional": true, 
-            "type": "File", 
-            "value-key": "[BASELINE_DATA]"
-        }, 
-        {
-            "id": "lead_field_data", 
+            "id": "leadfield", 
             "name": "Lead field data",
             "type": "File", 
-            "value-key": "[LEAD_FIELD_DATA]"
+            "uses-absolute-path": true,
+            "value-key": "[LEADFIELD]"
         }, 
         {
             "id": "adjacency_matrix", 
             "name": "Adjacency matrix", 
             "type": "File", 
+            "uses-absolute-path": true,
             "value-key": "[ADJACENCY_MATRIX]"
-        }, 
+        },
         {
             "id": "mem_method", 
             "name": "MEM method",
@@ -42,8 +40,8 @@
             "value-key": "[MEM_METHOD]"
         }, 
         {
-            "id": "data_types", 
-            "name": "Data types", 
+            "id": "sensor_types", 
+            "name": "Sensor types", 
             "type": "String",
             "list": true,
             "max-list-entries": 2,
@@ -52,10 +50,10 @@
                 "EEG",
                 "MEG"
             ],
-            "value-key": "[DATA_TYPES]"
+            "value-key": "[SENSOR_TYPES]"
         }, 
         {
-            "id": "localisation_time_window", 
+            "id": "reconstruction_window", 
             "name": "Localisation time window", 
             "description": "Recording data time definition in seconds",
             "type": "Number",
@@ -63,30 +61,10 @@
             "max-list-entries": 2,
             "min-list-entries": 2,
             "minimum": 0,
-            "value-key": "[LOCALISATION_TIME_WINDOW]"
+            "value-key": "[RECONSTRUCTION_WINDOW]"
         }, 
         {
-            "id": "baseline_type", 
-            "name": "Baseline type", 
-            "type": "String",
-            "value-choices": [
-                "from-recording-data",
-                "from-external-data"
-            ],
-            "value-disables": {
-                "from-recording-data": [
-                    "baseline_data" 
-                ]
-            },
-            "value-requires": {
-                "from-external-data": [
-                    "baseline_data" 
-                ]
-            },
-            "value-key": "[BASELINE_TYPE]"
-        }, 
-        {
-            "id": "baseline_time_window", 
+            "id": "baseline_window", 
             "name": "Baseline time window", 
             "description": "Baseline time definition in seconds",
             "type": "Number",
@@ -94,23 +72,35 @@
             "max-list-entries": 2,
             "min-list-entries": 2,
             "minimum": 0,
-            "value-key": "[BASELINE_TIME_WINDOW]"
+            "value-key": "[BASELINE_WINDOW]"
+        }, 
+        {
+            "id": "baseline", 
+            "name": "Baseline data", 
+            "type": "File",
+            "uses-absolute-path": true,
+            "optional": true,
+            "command-line-flag": "--baseline",
+            "value-key": "[BASELINE]"
         }, 
         {
             "id": "normalization", 
             "name": "Normalization",
             "type": "String", 
+            "optional": true,
             "default-value": "adaptive",
             "value-choices": [
                 "adaptive",
                 "fixed"
             ],
+            "command-line-flag": "--normalization",
             "value-key": "[NORMALIZATION]"
         }, 
         {
-            "id": "clusters-type", 
-            "name": "Clusters type",
+            "id": "clustering_method", 
+            "name": "Clustering method",
             "type": "String", 
+            "optional": true,
             "default-value": "static",
             "value-choices": [
                 "static",
@@ -126,7 +116,8 @@
                     "msp_window" 
                 ]
             },
-            "value-key": "[CLUSTERS_TYPE]"
+            "command-line-flag": "--clustering-method",
+            "value-key": "[CLUSTERING_METHOD]"
         }, 
         {
             "id": "msp_window", 
@@ -135,12 +126,14 @@
             "optional": true,
             "minimum": 0,
             "default-value": 10,
+            "command-line-flag": "--msp-window",
             "value-key": "[MSP_WINDOW]"
         }, 
         {
-            "id": "msp_scores_threshold_method", 
+            "id": "msp_threshold_method", 
             "name": "MSP scores threshold method",
             "type": "String", 
+            "optional": true,
             "default-value": "arbitrary",
             "value-choices": [
                 "arbitrary",
@@ -156,130 +149,155 @@
                     "msp_scores_threshold" 
                 ]
             },
-            "value-key": "[MSP_SCORES_THRESHOLD_METHOD]"
+            "command-line-flag": "--msp-threshold-method",
+            "value-key": "[MSP_THRESHOLD_METHOD]"
         }, 
         {
-            "id": "msp_scores_threshold", 
+            "id": "msp_threshold", 
             "name": "MSP scores threshold",
             "type": "Number",
             "optional": true,
             "minimum": 0,
             "maximum": 1,
             "default-value": 0,
-            "value-key": "[MSP_SCORES_THRESHOLD]"
+            "command-line-flag": "--msp-threshold",
+            "value-key": "[MSP_THRESHOLD]"
         }, 
         {
             "id": "neighborhood_order", 
             "name": "Neighborhood order",
             "type": "Number",
+            "optional": true,
             "integer": true,
             "minimum": 0,
             "default-value": 4,
+            "command-line-flag": "--neighborhood-order",
             "value-key": "[NEIGHBORHOOD_ORDER]"
-        }, 
-        {
-            "id": "active_mean_initialization", 
-            "name": "Active mean initialization",
-            "type": "Number",
-            "integer": true,
-            "minimum": 1,
-            "maximum": 4,
-            "default-value": 2,
-            "value-key": "[ACTIVE_MEAN_INITIALIZATION]"
-        }, 
-        {
-            "id": "active_probability_initialization", 
-            "name": "Active probability initialization",
-            "type": "Number",
-            "integer": true,
-            "minimum": 1,
-            "maximum": 5,
-            "default-value": 3,
-            "value-key": "[ACTIVE_PROBABILITY_INITIALIZATION]"
-        }, 
-        {
-            "id": "active_probability_threshold", 
-            "name": "Active probability threshold",
-            "type": "Number",
-            "minimum": 0,
-            "maximum": 1,
-            "default-value": 0,
-            "value-key": "[ACTIVE_PROBABILITY_THRESHOLD]"
-        }, 
-        {
-            "id": "lambda_initialization", 
-            "name": "Lambda initialization",
-            "type": "Number",
-            "integer": true,
-            "minimum": 0,
-            "maximum": 1,
-            "default-value": 1,
-            "value-key": "[LAMBDA_INITIALIZATION]"
-        }, 
-        {
-            "id": "active_variance_coefficient", 
-            "name": "Active variance coefficient",
-            "type": "Number",
-            "minimum": 0,
-            "maximum": 1,
-            "default-value": 0.05,
-            "value-key": "[ACTIVE_VARIANCE_COEFFICIENT]"
-        }, 
-        {
-            "id": "inactive_variance_coefficient", 
-            "name": "Inactive variance coefficient",
-            "type": "Number",
-            "minimum": 0,
-            "maximum": 1,
-            "default-value": 0,
-            "value-key": "[INACTIVE_VARIANCE_COEFFICIENT]"
-        }, 
-        {
-            "id": "noise_covariance_matrix_estimation", 
-            "name": "Noise covariance matrix estimation",
-            "type": "Number",
-            "integer": true,
-            "minimum": 0,
-            "maximum": 4,
-            "default-value": 2,
-            "value-key": "[NOISE_COVARIANCE_MATRIX_ESTIMATION]"
         }, 
         {
             "id": "spatial_smoothing", 
             "name": "Spatial smoothing",
             "type": "Number",
+            "optional": true,
             "minimum": 0,
             "maximum": 1,
             "default-value": 0.6,
+            "command-line-flag": "--spatial-smoothing",
             "value-key": "[SPATIAL_SMOOTHING]"
         }, 
         {
-            "id": "optimization_routine", 
+            "id": "active_mean_init", 
+            "name": "Active mean initialization",
+            "type": "Number",
+            "optional": true,
+            "integer": true,
+            "minimum": 1,
+            "maximum": 4,
+            "default-value": 2,
+            "command-line-flag": "--active-mean-init",
+            "value-key": "[ACTIVE_MEAN_INIT]"
+        }, 
+        {
+            "id": "active_proba_init", 
+            "name": "Active probability initialization",
+            "type": "Number",
+            "optional": true,
+            "integer": true,
+            "minimum": 1,
+            "maximum": 5,
+            "default-value": 3,
+            "command-line-flag": "--active-proba-init",
+            "value-key": "[ACTIVE_PROBA_INIT]"
+        }, 
+        {
+            "id": "lambda_init", 
+            "name": "Lambda initialization",
+            "type": "Number",
+            "optional": true,
+            "integer": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 1,
+            "command-line-flag": "--lambda-init",
+            "value-key": "[LAMBDA_INIT]"
+        }, 
+        {
+            "id": "active_proba_threshold", 
+            "name": "Active probability threshold",
+            "type": "Number",
+            "optional": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "command-line-flag": "--active-proba-threshold",
+            "value-key": "[ACTIVE_PROBA_THRESHOLD]"
+        }, 
+        {
+            "id": "active_var_coef", 
+            "name": "Active variance coefficient",
+            "type": "Number",
+            "optional": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0.05,
+            "command-line-flag": "--active-var-coef",
+            "value-key": "[ACTIVE_VAR_COEF]"
+        }, 
+        {
+            "id": "inactive_var_coef", 
+            "name": "Inactive variance coefficient",
+            "type": "Number",
+            "optional": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "command-line-flag": "--inactive-var-coef",
+            "value-key": "[INACTIVE_VAR_COEF]"
+        }, 
+        {
+            "id": "noise_cov_method", 
+            "name": "Noise covariance method",
+            "type": "Number",
+            "optional": true,
+            "integer": true,
+            "minimum": 0,
+            "maximum": 4,
+            "default-value": 2,
+            "command-line-flag": "--noise-cov-method",
+            "value-key": "[NOISE_COV_METHOD]"
+        }, 
+        {
+            "id": "optim_method", 
             "name": "Optimization routine",
             "type": "String", 
+            "optional": true,
             "default-value": "fminunc",
             "value-choices": [
                 "fminunc",
                 "minfunc"
             ],
-            "value-key": "[OPTMIZATION_ROUTINE]"
+            "command-line-flag": "--optim-method",
+            "value-key": "[OPTIM_METHOD]"
         }, 
         {
-            "command-line-flag": "-p",
-            "id": "parallel_computing",
+            "id": "use_parallel",
             "name": "Parallel computing",
             "type": "Flag",
+            "optional": true,
             "default-value": false,
-            "value-key": "[PARALLEL_COMPUTING]"
+            "command-line-flag": "--use-parallel",
+            "value-key": "[USE_PARALLEL]"
         }
     ], 
     "output-files": [
         {
-            "id": "localised_data", 
-            "name": "Localised data",
-            "path-template": "?"
+            "id": "sources", 
+            "name": "Sources",
+            "path-template": "[SOURCES]",
+            "uses-absolute-path": true,
+            "value-key": "[SOURCES]"
         },
-    ], 
+    ],
     "schema-version": "0.5", 
     "tags": {
         "domain": "neuroinformatics"
