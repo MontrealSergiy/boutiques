@@ -3,7 +3,7 @@
     "container-image": {
         "image": "best", 
         "index": "docker://",
-        "type": "singularity",
+        "type": "singularity"
     }, 
     "name": "BEst Toolbox", 
     "author": "Obaï Bin Ka’b Ali",
@@ -14,6 +14,7 @@
             "name": "Recording data", 
             "type": "File",
             "uses-absolute-path": true,
+            "optional": false,
             "value-key": "[RECORDINGS]"
         }, 
         {
@@ -21,6 +22,7 @@
             "name": "Lead field data",
             "type": "File", 
             "uses-absolute-path": true,
+            "optional": false,
             "value-key": "[LEADFIELD]"
         }, 
         {
@@ -28,12 +30,14 @@
             "name": "Adjacency matrix", 
             "type": "File", 
             "uses-absolute-path": true,
+            "optional": false,
             "value-key": "[ADJACENCY_MATRIX]"
         },
         {
             "id": "mem_method", 
             "name": "MEM method",
             "type": "String",
+            "optional": false,
             "value-choices": [
                 "cMEM"
             ],
@@ -43,6 +47,7 @@
             "id": "sensor_types", 
             "name": "Sensor types", 
             "type": "String",
+            "optional": false,
             "list": true,
             "max-list-entries": 2,
             "min-list-entries": 1,
@@ -57,6 +62,7 @@
             "name": "Localisation time window", 
             "description": "Recording data time definition in seconds",
             "type": "Number",
+            "optional": false,
             "list": true,
             "max-list-entries": 2,
             "min-list-entries": 2,
@@ -68,6 +74,7 @@
             "name": "Baseline time window", 
             "description": "Baseline time definition in seconds",
             "type": "Number",
+            "optional": false,
             "list": true,
             "max-list-entries": 2,
             "min-list-entries": 2,
@@ -109,9 +116,13 @@
             "value-disables": {
                 "static": [
                     "msp_window"
+                ],
+                "dynamic": [
                 ]
             }, 
             "value-requires": {
+                "static": [
+                ],
                 "dynamic": [
                     "msp_window" 
                 ]
@@ -140,13 +151,17 @@
                 "fdr"
             ],
             "value-disables": {
-                "fsr": [
-                    "msp_scores_threshold"
+                "arbitrary": [ 
+                ],
+                "fdr": [
+                    "msp_threshold"
                 ]
             }, 
             "value-requires": {
                 "arbitrary": [
-                    "msp_scores_threshold" 
+                    "msp_threshold" 
+                ],
+                "fdr": [
                 ]
             },
             "command-line-flag": "--msp-threshold-method",
@@ -295,8 +310,9 @@
             "name": "Sources",
             "path-template": "[SOURCES]",
             "uses-absolute-path": true,
+            "optional": false,
             "value-key": "[SOURCES]"
-        },
+        }
     ],
     "schema-version": "0.5", 
     "tags": {
