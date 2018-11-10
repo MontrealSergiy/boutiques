@@ -87,7 +87,7 @@
             "type": "File",
             "uses-absolute-path": true,
             "optional": true,
-            "command-line-flag": "--baseline",
+            "command-line-flag": "baseline",
             "value-key": "[BASELINE]"
         }, 
         {
@@ -100,7 +100,7 @@
                 "adaptive",
                 "fixed"
             ],
-            "command-line-flag": "--normalization",
+            "command-line-flag": "normalization",
             "value-key": "[NORMALIZATION]"
         }, 
         {
@@ -127,7 +127,7 @@
                     "msp_window" 
                 ]
             },
-            "command-line-flag": "--clustering-method",
+            "command-line-flag": "clusteringMethod",
             "value-key": "[CLUSTERING_METHOD]"
         }, 
         {
@@ -137,7 +137,7 @@
             "optional": true,
             "minimum": 0,
             "default-value": 10,
-            "command-line-flag": "--msp-window",
+            "command-line-flag": "mspWindow",
             "value-key": "[MSP_WINDOW]"
         }, 
         {
@@ -164,7 +164,7 @@
                 "fdr": [
                 ]
             },
-            "command-line-flag": "--msp-threshold-method",
+            "command-line-flag": "mspThresholdMethod",
             "value-key": "[MSP_THRESHOLD_METHOD]"
         }, 
         {
@@ -175,7 +175,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 0,
-            "command-line-flag": "--msp-threshold",
+            "command-line-flag": "mspThreshold",
             "value-key": "[MSP_THRESHOLD]"
         }, 
         {
@@ -186,7 +186,7 @@
             "integer": true,
             "minimum": 0,
             "default-value": 4,
-            "command-line-flag": "--neighborhood-order",
+            "command-line-flag": "neighborhoodOrder",
             "value-key": "[NEIGHBORHOOD_ORDER]"
         }, 
         {
@@ -197,7 +197,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 0.6,
-            "command-line-flag": "--spatial-smoothing",
+            "command-line-flag": "spatialSmoothing",
             "value-key": "[SPATIAL_SMOOTHING]"
         }, 
         {
@@ -209,7 +209,7 @@
             "minimum": 1,
             "maximum": 4,
             "default-value": 2,
-            "command-line-flag": "--active-mean-init",
+            "command-line-flag": "activeMeanInit",
             "value-key": "[ACTIVE_MEAN_INIT]"
         }, 
         {
@@ -221,7 +221,7 @@
             "minimum": 1,
             "maximum": 5,
             "default-value": 3,
-            "command-line-flag": "--active-proba-init",
+            "command-line-flag": "activeProbaInit",
             "value-key": "[ACTIVE_PROBA_INIT]"
         }, 
         {
@@ -233,7 +233,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 1,
-            "command-line-flag": "--lambda-init",
+            "command-line-flag": "lambdaInit",
             "value-key": "[LAMBDA_INIT]"
         }, 
         {
@@ -244,7 +244,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 0,
-            "command-line-flag": "--active-proba-threshold",
+            "command-line-flag": "activeProbaThreshold",
             "value-key": "[ACTIVE_PROBA_THRESHOLD]"
         }, 
         {
@@ -255,7 +255,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 0.05,
-            "command-line-flag": "--active-var-coef",
+            "command-line-flag": "activeVarCoef",
             "value-key": "[ACTIVE_VAR_COEF]"
         }, 
         {
@@ -266,7 +266,7 @@
             "minimum": 0,
             "maximum": 1,
             "default-value": 0,
-            "command-line-flag": "--inactive-var-coef",
+            "command-line-flag": "inactiveVarCoef",
             "value-key": "[INACTIVE_VAR_COEF]"
         }, 
         {
@@ -278,7 +278,7 @@
             "minimum": 0,
             "maximum": 4,
             "default-value": 2,
-            "command-line-flag": "--noise-cov-method",
+            "command-line-flag": "noiseCovMethod",
             "value-key": "[NOISE_COV_METHOD]"
         }, 
         {
@@ -291,16 +291,19 @@
                 "fminunc",
                 "minfunc"
             ],
-            "command-line-flag": "--optim-method",
+            "command-line-flag": "optimMethod",
             "value-key": "[OPTIM_METHOD]"
         }, 
         {
             "id": "use_parallel",
             "name": "Parallel computing",
-            "type": "Flag",
+            "type": "Number",
             "optional": true,
-            "default-value": false,
-            "command-line-flag": "--use-parallel",
+            "integer": true,
+            "minimum": 0,
+            "maximum": 1,
+            "default-value": 0,
+            "command-line-flag": "useParallel",
             "value-key": "[USE_PARALLEL]"
         }
     ], 
